@@ -5,277 +5,216 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>꽃 테트리스</title>
   <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background: linear-gradient(135deg, #FFE5F1 0%, #E5F3FF 50%, #F0FFE5 100%);
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .game-container {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      border: 3px solid #FFB6C1;
-    }
-
-    .game-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .game-title {
-      font-size: 2.5em;
-      color: #FF69B4;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-      margin: 0;
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(-10px); }
-      60% { transform: translateY(-5px); }
-    }
-
-    .game-board {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
-
-    .board {
-      width: 300px;
-      height: 600px;
-      border: 4px solid #FF69B4;
-      border-radius: 15px;
-      background: #F0F8FF;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .board-grid {
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      grid-template-rows: repeat(20, 1fr);
-      width: 100%;
-      height: 100%;
-      gap: 1px;
-    }
-
-    .cell {
-      background: rgba(255, 255, 255, 0.3);
-      border: 1px solid rgba(255, 182, 193, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      border-radius: 3px;
-    }
-
-    .info-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .score-board, .next-piece {
-      background: rgba(255, 255, 255, 0.8);
-      padding: 15px;
-      border-radius: 15px;
-      border: 3px solid #87CEEB;
-      min-width: 150px;
-    }
-
-    .score-board h3, .next-piece h3 {
-      margin: 0 0 10px 0;
-      color: #A0E7E5;
-      text-align: center;
-      font-size: 1.2em;
-    }
-
-    .score {
-      font-size: 1.5em;
-      color: #CBAACB;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .controls {
-      background: rgba(255, 255, 255, 0.8);
-      padding: 15px;
-      border-radius: 15px;
-      border: 3px solid #98FB98;
-      text-align: center;
-    }
-
-    .controls h3 {
-      margin: 0 0 10px 0;
-      color: #B5EAD7;
-    }
-
-    .controls p {
-      margin: 5px 0;
-      color: #A9DFBF;
-      font-size: 0.9em;
-    }
-
-    .start-btn, .pause-btn {
-      background: linear-gradient(45deg, #FFB6B9, #FF8FAB);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 25px;
-      font-size: 1.1em;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 5px;
-      box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
-      transition: all 0.3s ease;
-    }
-
-    .start-btn:hover, .pause-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
-    }
-
-    .animal-block {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      border-radius: 4px;
-      animation: sparkle 2s infinite;
-    }
-
-    @keyframes sparkle {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .game-over {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 20px;
-      border: 4px solid #FF69B4;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      display: none;
-    }
-
-    .game-over h2 {
-      color: #FF8FAB;
-      margin: 0 0 15px 0;
-      font-size: 2em;
-    }
-
-    .rainbow-text {
-      background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FECA57, #FF9FF3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: rainbow 3s ease-in-out infinite;
-    }
-
-    @keyframes rainbow {
-      0%, 100% { filter: hue-rotate(0deg); }
-      50% { filter: hue-rotate(180deg); }
-    }
+    .game-container { display: flex; flex-direction: column; align-items: center; padding: 20px; }
+    .board { width: 300px; height: 600px; display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(20, 1fr); gap: 1px; background: #f9f9f9; border: 2px solid #ccc; }
+    .cell { background: #fff; border: 1px solid #eee; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .score-board { margin-top: 20px; }
+    .animal-block { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
   </style>
 </head>
 <body>
   <div class="game-container">
-    <div class="game-header">
-      <h1 class="game-title rainbow-text">🌸 꽃 테트리스 🌼</h1>
+    <h1>🌸 꽃 테트리스 🌸</h1>
+    <div class="board" id="gameBoard"></div>
+    <div class="score-board">
+      <p>점수: <span id="score">0</span></p>
+      <p>레벨: <span id="level">1</span></p>
+      <p>라인: <span id="lines">0</span></p>
     </div>
-    <div class="game-board">
-      <div class="board">
-        <div class="board-grid" id="gameBoard"></div>
-        <div class="game-over" id="gameOver">
-          <h2>게임 끝! 🌟</h2>
-          <p class="score" id="finalScore">점수: 0</p>
-          <button class="start-btn" onclick="startGame()">다시 시작하기 🎮</button>
-        </div>
-      </div>
-      <div class="info-panel">
-        <div class="score-board">
-          <h3>🏆 점수</h3>
-          <div class="score" id="score">0</div>
-          <p>레벨: <span id="level">1</span></p>
-          <p>라인: <span id="lines">0</span></p>
-        </div>
-        <div class="next-piece">
-          <h3>🔮 다음 조각</h3>
-          <div id="nextPiece" style="height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2em;"></div>
-        </div>
-        <div class="controls">
-          <h3>🎮 조작법</h3>
-          <p>← → : 좌우 이동</p>
-          <p>↓ : 빠르게 떨어뜨리기</p>
-          <p>↑ : 회전</p>
-          <p>스페이스바 : 바로 떨어뜨리기</p>
-          <button class="start-btn" onclick="startGame()">시작 🚀</button>
-          <button class="pause-btn" onclick="pauseGame()">일시정지 ⏸️</button>
-        </div>
-      </div>
-    </div>
+    <button onclick="startGame()">게임 시작</button>
   </div>
-
   <script>
     const BOARD_WIDTH = 10;
     const BOARD_HEIGHT = 20;
 
     const PIECES = [
-      {
-        shape: [[1, 1, 1, 1]],
-        animal: '🌸',
-        color: '#FFB6C1'
-      },
-      {
-        shape: [[1, 1], [1, 1]],
-        animal: '🌼',
-        color: '#DDA0DD'
-      },
-      {
-        shape: [[0, 1, 0], [1, 1, 1]],
-        animal: '🌷',
-        color: '#87CEEB'
-      },
-      {
-        shape: [[0, 1, 1], [1, 1, 0]],
-        animal: '🌻',
-        color: '#98FB98'
-      },
-      {
-        shape: [[1, 1, 0], [0, 1, 1]],
-        animal: '🌹',
-        color: '#F0E68C'
-      },
-      {
-        shape: [[1, 0, 0], [1, 1, 1]],
-        animal: '🌺',
-        color: '#FFA07A'
-      },
-      {
-        shape: [[0, 0, 1], [1, 1, 1]],
-        animal: '💐',
-        color: '#20B2AA'
-      }
+      { shape: [[1, 1, 1, 1]], animal: '🌸', color: '#FFB6C1' },
+      { shape: [[1, 1], [1, 1]], animal: '🌼', color: '#DDA0DD' },
+      { shape: [[0, 1, 0], [1, 1, 1]], animal: '🌷', color: '#87CEEB' },
+      { shape: [[0, 1, 1], [1, 1, 0]], animal: '🌻', color: '#98FB98' },
+      { shape: [[1, 1, 0], [0, 1, 1]], animal: '🌹', color: '#F0E68C' },
+      { shape: [[1, 0, 0], [1, 1, 1]], animal: '🌺', color: '#FFA07A' },
+      { shape: [[0, 0, 1], [1, 1, 1]], animal: '💐', color: '#20B2AA' }
     ];
 
-    // 이하 JavaScript 게임 로직은 기존과 동일하며, 위에서 제공하신 스크립트 부분을 그대로 사용하시면 됩니다.
+    let board = [];
+    let currentPiece = null;
+    let nextPiece = null;
+    let gameRunning = false;
+    let score = 0;
+    let level = 1;
+    let lines = 0;
+    let dropTime = 1000;
+    let lastTime = 0;
+
+    function initBoard() {
+      board = Array.from({ length: BOARD_HEIGHT }, () => Array(BOARD_WIDTH).fill(null));
+      const gameBoard = document.getElementById('gameBoard');
+      gameBoard.innerHTML = '';
+      for (let row = 0; row < BOARD_HEIGHT; row++) {
+        for (let col = 0; col < BOARD_WIDTH; col++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.id = `cell-${row}-${col}`;
+          gameBoard.appendChild(cell);
+        }
+      }
+    }
+
+    function getRandomPiece() {
+      const random = PIECES[Math.floor(Math.random() * PIECES.length)];
+      return { ...random, x: Math.floor(BOARD_WIDTH / 2) - 1, y: 0 };
+    }
+
+    function drawBoard() {
+      for (let row = 0; row < BOARD_HEIGHT; row++) {
+        for (let col = 0; col < BOARD_WIDTH; col++) {
+          const cell = document.getElementById(`cell-${row}-${col}`);
+          cell.innerHTML = '';
+          cell.style.backgroundColor = '#fff';
+          if (board[row][col]) {
+            const block = document.createElement('div');
+            block.className = 'animal-block';
+            block.textContent = board[row][col].animal;
+            block.style.backgroundColor = board[row][col].color;
+            cell.appendChild(block);
+          }
+        }
+      }
+      if (currentPiece) {
+        for (let row = 0; row < currentPiece.shape.length; row++) {
+          for (let col = 0; col < currentPiece.shape[row].length; col++) {
+            if (currentPiece.shape[row][col]) {
+              const x = currentPiece.x + col;
+              const y = currentPiece.y + row;
+              if (x >= 0 && x < BOARD_WIDTH && y >= 0 && y < BOARD_HEIGHT) {
+                const cell = document.getElementById(`cell-${y}-${x}`);
+                const block = document.createElement('div');
+                block.className = 'animal-block';
+                block.textContent = currentPiece.animal;
+                block.style.backgroundColor = currentPiece.color;
+                cell.appendChild(block);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function isValidPosition(piece, dx = 0, dy = 0) {
+      for (let row = 0; row < piece.shape.length; row++) {
+        for (let col = 0; col < piece.shape[row].length; col++) {
+          if (piece.shape[row][col]) {
+            const newX = piece.x + col + dx;
+            const newY = piece.y + row + dy;
+            if (
+              newX < 0 || newX >= BOARD_WIDTH ||
+              newY >= BOARD_HEIGHT ||
+              (newY >= 0 && board[newY][newX])
+            ) return false;
+          }
+        }
+      }
+      return true;
+    }
+
+    function placePiece() {
+      for (let row = 0; row < currentPiece.shape.length; row++) {
+        for (let col = 0; col < currentPiece.shape[row].length; col++) {
+          if (currentPiece.shape[row][col]) {
+            const x = currentPiece.x + col;
+            const y = currentPiece.y + row;
+            if (y >= 0) board[y][x] = { animal: currentPiece.animal, color: currentPiece.color };
+          }
+        }
+      }
+    }
+
+    function clearLines() {
+      let cleared = 0;
+      for (let row = BOARD_HEIGHT - 1; row >= 0; row--) {
+        if (board[row].every(cell => cell)) {
+          board.splice(row, 1);
+          board.unshift(Array(BOARD_WIDTH).fill(null));
+          cleared++;
+          row++;
+        }
+      }
+      if (cleared) {
+        lines += cleared;
+        score += cleared * 100;
+        level = Math.floor(lines / 10) + 1;
+        dropTime = Math.max(100, 1000 - (level - 1) * 100);
+        document.getElementById('score').textContent = score;
+        document.getElementById('level').textContent = level;
+        document.getElementById('lines').textContent = lines;
+      }
+    }
+
+    function gameLoop(time = 0) {
+      if (!gameRunning) return;
+      const delta = time - lastTime;
+      if (delta > dropTime) {
+        if (isValidPosition(currentPiece, 0, 1)) {
+          currentPiece.y++;
+        } else {
+          placePiece();
+          clearLines();
+          currentPiece = nextPiece;
+          nextPiece = getRandomPiece();
+          if (!isValidPosition(currentPiece)) {
+            alert('게임 오버!');
+            gameRunning = false;
+            return;
+          }
+        }
+        lastTime = time;
+      }
+      drawBoard();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function startGame() {
+      initBoard();
+      score = 0; level = 1; lines = 0; dropTime = 1000;
+      gameRunning = true;
+      currentPiece = getRandomPiece();
+      nextPiece = getRandomPiece();
+      lastTime = 0;
+      document.getElementById('score').textContent = '0';
+      document.getElementById('level').textContent = '1';
+      document.getElementById('lines').textContent = '0';
+      requestAnimationFrame(gameLoop);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (!gameRunning || !currentPiece) return;
+      switch (e.key) {
+        case 'ArrowLeft':
+          if (isValidPosition(currentPiece, -1, 0)) currentPiece.x--; break;
+        case 'ArrowRight':
+          if (isValidPosition(currentPiece, 1, 0)) currentPiece.x++; break;
+        case 'ArrowDown':
+          if (isValidPosition(currentPiece, 0, 1)) currentPiece.y++; break;
+        case 'ArrowUp': {
+          const rotated = rotatePiece(currentPiece);
+          if (isValidPosition(rotated)) currentPiece.shape = rotated.shape;
+          break;
+        }
+        case ' ': while (isValidPosition(currentPiece, 0, 1)) currentPiece.y++; break;
+      }
+      drawBoard();
+    });
+
+    function rotatePiece(piece) {
+      const shape = piece.shape;
+      const rows = shape.length;
+      const cols = shape[0].length;
+      const newShape = Array.from({ length: cols }, (_, col) =>
+        Array.from({ length: rows }, (_, row) => shape[rows - 1 - row][col])
+      );
+      return { ...piece, shape: newShape };
+    }
   </script>
 </body>
 </html>
